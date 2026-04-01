@@ -37,7 +37,7 @@ class MyList {
     /* 访问元素 */
     int get(int index) {
         // 索引如果越界，则抛出异常，下同
-        if(index < 0 || index > size()){
+        if(index < 0 || index >= size()){
             throw out_of_range("索引越界");
         }
         return arr[index];
@@ -45,7 +45,7 @@ class MyList {
 
     /* 更新元素 */
     void set(int index, int num) {
-        if(index < 0 || index > size()){
+        if(index < 0 || index >= size()){
             throw out_of_range("索引越界");
         }
         arr[index] = num;
@@ -82,7 +82,7 @@ class MyList {
 
     /* 删除元素 */
     int remove(int index) {
-        if(index < 0 || index > size()){
+        if(index < 0 || index >= size()){
             throw out_of_range("索引越界");
         }
         int deleteNum = arr[index];
