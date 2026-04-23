@@ -11,6 +11,7 @@ struct Treenode {
 };
 
 vector<int> levelOrder(Treenode* root){
+    if(root == nullptr) return;
     /*初始化列表，假如根节点*/
     queue<Treenode*> que;
     que.push(root);
