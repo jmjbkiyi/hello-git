@@ -1,3 +1,8 @@
+/*
+许多编程语言提供的是优先队列（priority queue）
+cpp提供的即是优先队列
+堆通常用于实现优先队列，大顶堆相当于元素按从大到小的顺序出队的优先队列
+*/
 #include <iostream>
 #include <queue>
 #include <vector>
