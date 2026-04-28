@@ -1,4 +1,4 @@
-# C++ 核心语法与避坑速查手册 (带代码示例)
+# C++ 核心语法与避坑速查手册 (带代码示例与头文件)
 
 ## 1. 内存与指针引用 (Memory & References)
 * 【& 符号的双面性】
@@ -18,11 +18,14 @@
   - 流程：防自反 -> 释放旧内存 -> 申请新内存 -> 拷数据。
 
 ## 2. 运算符重载 (Operator Overloading)
-* 【成员函数 vs 友元函数 (friend)】
+* 【成员函数 vs 友元函数 (friend)】 (流操作需包含 <iostream>)
   - 成员函数：运算符左侧是“自己”时用（如 +=, ==, ++）。
   - 友元函数：运算符左侧是“别人”（如 cout）时必须用 friend。
   - 代码示例 (流输出重载)：
     ```cpp
+    #include <iostream>
+    using namespace std;
+
     class Matrix {
         friend ostream& operator<<(ostream& out, const Matrix& m);
     };
@@ -72,32 +75,38 @@
   - 用于危险的向下转型（父类转子类）。自带安检，不是亲儿子就返回 nullptr。
 
 ## 5. 移动语义与终极交换 (Move & Swap)
-* 【std::move（废品贴纸）】
+* 【std::move（废品贴纸）】 (需包含 <utility>)
   - 它不移动数据！它只是把对象转为右值，告诉编译器：“我不要了，谁来抢走我的底层指针都可以。”
-* 【std::swap 的 O(1) 魔法】
+* 【std::swap 的 O(1) 魔法】 (需包含 <utility>)
   - 不发生海量数据的复印，仅倒腾三个指针。
-  - `swap(vec1, vec2); // 100万个数据瞬间对调`
-* 【神技：Swap Trick 彻底清空内存】
+  - `std::swap(vec1, vec2); // 100万个数据瞬间对调`
+* 【神技：Swap Trick 彻底清空内存】 (需包含 <vector>)
   - vector 的 `clear()` 只让 size=0，但 capacity（物理内存）一点不还。
   - 代码示例 (物理清空)：
     ```cpp
+    #include <vector>
+    
     vector<int> vec = {1, 2, 3...}; // 占用巨大内存
     vector<int>().swap(vec);        // 用匿名空壳套走旧内存并随之销毁
     // 此时 vec 彻底变为 0 size, 0 capacity
     ```
 
 ## 6. STL 容器与数据结构 (STL & Data Structures)
-* 【queue (普通队列)】
+* 【queue (普通队列)】 (需包含 <queue>)
   - FIFO（先进先出）。
   - `que.push(x);` | `que.front();` | `que.pop(); // 注意 pop 不返回元素`
-* 【priority_queue (优先队列 / 堆)】
+* 【priority_queue (优先队列 / 堆)】 (需包含 <queue>，自定义排序需 <functional>，底层需 <vector>)
   - 默认是大顶堆。
   - 代码示例 (大顶堆 vs 小顶堆)：
     ```cpp
+    #include <queue>
+    #include <vector>
+    #include <functional> // greater 在这里
+
     priority_queue<int> maxHeap; // 默认大顶堆
     priority_queue<int, vector<int>, greater<int>> minHeap; // 必须写全才是小顶堆
     ```
-* 【神技：批量建堆 (Range Initialization)】
+* 【神技：批量建堆 (Range Initialization)】 (依赖头文件同上)
   - 时间复杂度 O(N)，远快于 for 循环 push 的 O(N log N)。
   - 代码示例：
     ```cpp
