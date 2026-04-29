@@ -29,7 +29,7 @@ void printVector(const vector<int> &vec){
 }
 
 class GraphAdjList {
-private:
+public:
     // 邻接表，key：顶点，value：该顶点的所有邻接顶点
     unordered_map<Vertex*, vector<Vertex*>> list;
     
@@ -41,7 +41,7 @@ private:
             }
         }
     }
-public:
+
     GraphAdjList(const vector<vector<Vertex*>> &edges){
         for(const vector<Vertex*> &edge : edges){
             addVertex(edge[0]);
